@@ -63,7 +63,7 @@ typedef struct {
 	const char *name;
 	const void *cmd;
 } Sp;
-const char *spcmd1[] = {TERMINAL, "-n", "spterm", "-g", "120x34", NULL };
+const char *spcmd1[] = {TERMINAL, "-n", "spterm", "-g", "130x44", NULL };
 const char *spcmd2[] = {TERMINAL, "-n", "spcalc", "-g", "50x20", "-e", "bc", "-lq", NULL };
 static Sp scratchpads[] = {
 	/* name          cmd  */
@@ -82,19 +82,17 @@ static const Rule rules[] = {
 	 *	WM_CLASS(STRING) = instance, class
 	 *	WM_NAME(STRING) = title
 	*/
-	/* class                instance            title       	    tags mask    isfloating   isterminal  noswallow  monitor */
-	{ "Gimp",               NULL,               NULL,       	    1 << 8,       0,           0,         0,        -1 },
-	{ TERMCLASS,            NULL,               NULL,       	    0,            0,           1,         0,        -1 },
-	{ NULL,                 NULL,               "Event Tester",     0,            0,           0,         1,        -1 },
-	{ NULL,                 "spterm",           NULL,       	    SPTAG(0),     1,           1,         0,        -1 },
-	// { NULL,              "spcalc",           NULL,       	    SPTAG(1),     1,           1,         0,        -1 },
-	{ "Google-chrome",      "google-chrome",    NULL,       	    SPTAG(2),     0,           1,         0,        -1 },
-	{ "Alacritty",          "Alacritty",        NULL,       	    SPTAG(3),     1,           1,         0,        -1 },
-
+	/* class    instance      title       	 tags mask    isfloating   isterminal  noswallow  monitor */
+	{ "Gimp",     NULL,       NULL,       	    1 << 8,       0,           0,         0,        -1 },
+	{ TERMCLASS,  NULL,       NULL,       	    0,            0,           1,         0,        -1 },
+	{ NULL,       NULL,       "Event Tester",   0,            0,           0,         1,        -1 },
+	{ TERMCLASS,      "bg",        NULL,       	    1 << 7,       0,           1,         0,        -1 },
+	{ TERMCLASS,      "spterm",    NULL,       	    SPTAG(0),     1,           1,         0,        -1 },
+	{ TERMCLASS,      "spcalc",    NULL,       	    SPTAG(1),     1,           1,         0,        -1 },
 };
 
 /* layout(s) */
-static float mfact     = 0.55; /* factor of master area size [0.05..0.95] */
+static float mfact     = 0.80; /* factor of master area size [0.05..0.95] */
 static int nmaster     = 1;    /* number of clients in master area */
 static int resizehints = 0;    /* 1 means respect size hints in tiled resizals */
 #define FORCE_VSPLIT 1  /* nrowgrid layout: force two clients to always split vertically */
@@ -119,18 +117,21 @@ static const Layout layouts[] = {
 
 /* key definitions */
 #define MODKEY Mod4Mask
+// 切换tag
+// 移动tag
+// 全局tag
 #define TAGKEYS(KEY,TAG) \
-	{ MODKEY,                       KEY,      view,           {.ui = 1 << TAG} }, \
-	{ MODKEY|ControlMask,           KEY,      toggleview,     {.ui = 1 << TAG} }, \
-	{ MODKEY|ShiftMask,             KEY,      tag,            {.ui = 1 << TAG} }, \
-	{ MODKEY|ControlMask|ShiftMask, KEY,      toggletag,      {.ui = 1 << TAG} },
+	{ MODKEY,                       KEY,      view,           {.ui = 1 << TAG} },
+	/* { MODKEY|ControlMask,           KEY,      toggleview,     {.ui = 1 << TAG} }, \
+	{ MODKEY|ControlMask,             KEY,      tag,            {.ui = 1 << TAG} }, \
+	{ MODKEY|ControlMask|ShiftMask, KEY,      toggletag,      {.ui = 1 << TAG} },*/
 
 #define STACKKEYS(MOD,ACTION) \
 	{ MOD,	XK_j,	ACTION##stack,	{.i = INC(+1) } }, \
 	{ MOD,	XK_k,	ACTION##stack,	{.i = INC(-1) } }, \
-	{ MOD,  XK_s,   ACTION##stack,  {.i = 0 } }, \
-	// { MOD,  XK_v,   ACTION##stack,  {.i = 0 } }, \
-	/* { MOD, XK_grave, ACTION##stack, {.i = PREVSEL } }, \ */
+	{ MOD,  XK_s,   ACTION##stack,  {.i = 0 } }, 
+	/* { MOD,  XK_v,   ACTION##stack,  {.i = 0 } }, \
+	 { MOD, XK_grave, ACTION##stack, {.i = PREVSEL } }, \ */
 	/* { MOD, XK_a,     ACTION##stack, {.i = 1 } }, \ */
 	/* { MOD, XK_z,     ACTION##stack, {.i = 2 } }, \ */
 	/* { MOD, XK_x,     ACTION##stack, {.i = -1 } }, */
@@ -153,6 +154,10 @@ static const char *wp_change_prev[] = { "/home/zdz/.zdz/dwm/scripts/wp-change.sh
 static const char *brightness[] = {"/home/zdz/.zdz/dwm/scripts/brightness.sh","-inc", NULL};
 static const char *brightness_prev[] = {"/home/zdz/.zdz/dwm/scripts/brightness.sh", "-dec", NULL};
 // static const char *brightness[2][] = {{"/home/zdz/.zdz/dwm/scripts/brightness.sh","-inc", NULL},{"/home/zdz/.zdz/dwm/scripts/brightness.sh", "-dec", NULL}};
+static const char *goplayer_next[] = {"/home/zdz/.zdz/dwm/scripts/goplayer.sh","-next", NULL};
+static const char *goplayer_prev[] = {"/home/zdz/.zdz/dwm/scripts/goplayer.sh","-prev", NULL};
+static const char *goplayer_pause[] = {"/home/zdz/.zdz/dwm/scripts/goplayer.sh","-pause", NULL};
+static const char *goplayer_delete[] = {"/home/zdz/.zdz/dwm/scripts/goplayer.sh","-delete", NULL};
 /*
  * Xresources preferences to load at startup
  */
@@ -198,7 +203,7 @@ static Key keys[] = {
 	TAGKEYS(			XK_7,		6)
 	TAGKEYS(			XK_8,		7)
 	TAGKEYS(			XK_9,		8)
-	{ MODKEY,			XK_6,		view,		{.ui = ~0 } },
+	// { MODKEY|ShiftMask,			XK_6,		view,		{.ui = ~0 } },
 	// { MODKEY|ShiftMask,	XK_0,		tag,		{.ui = ~0 } },
 	// { MODKEY,			XK_minus,	spawn,		SHCMD("pamixer --allow-boost -d 5; kill -44 $(pidof dwmblocks)") },
 	// { MODKEY|ShiftMask,	XK_minus,	spawn,		SHCMD("pamixer --allow-boost -d 15; kill -44 $(pidof dwmblocks)") },
@@ -217,20 +222,21 @@ static Key keys[] = {
 	// { MODKEY,			XK_w,		spawn,		SHCMD("$BROWSER") },
 	// { MODKEY|ShiftMask,	XK_w,		spawn,		SHCMD(TERMINAL " -e sudo nmtui") },
 	// { MODKEY,			XK_e,		spawn,		SHCMD(TERMINAL " -e neomutt ; pkill -RTMIN+12 dwmblocks; rmdir ~/.abook") },
-	// { MODKEY|ShiftMask,	XK_e,		spawn,		SHCMD(TERMINAL " -e abook -C ~/.config/abook/abookrc --datafile ~/.config/abook/addressbook") },
-	// { MODKEY,			XK_r,		spawn,		SHCMD(TERMINAL " -e lf") },
-	// { MODKEY|ShiftMask,	XK_r,		spawn,		SHCMD(TERMINAL " -e htop") },
+	// { MODKEY|ShiftMask,		XK_e,		spawn,		SHCMD(TERMINAL " -e abook -C ~/.config/abook/abookrc --datafile ~/.config/abook/addressbook") },
+	// { MODKEY,			XK_r,		spawn,		SHCMD(TERMINAL " -e lfub") },
+	// { MODKEY|ShiftMask,		XK_r,		spawn,		SHCMD(TERMINAL " -e htop") },
 	{ MODKEY,			XK_t,		setlayout,	{.v = &layouts[0]} }, /* tile */
 	{ MODKEY|ShiftMask,	XK_t,		setlayout,	{.v = &layouts[1]} }, /* bstack */
-	{ MODKEY,			XK_y,		setlayout,	{.v = &layouts[2]} }, /* spiral */
-	{ MODKEY|ShiftMask,	XK_y,		setlayout,	{.v = &layouts[3]} }, /* dwindle */
+	// { MODKEY,			XK_y,		setlayout,	{.v = &layouts[2]} }, /* spiral */
+	// { MODKEY|ShiftMask,	XK_y,		setlayout,	{.v = &layouts[3]} }, /* dwindle */
 	{ MODKEY,			XK_u,		setlayout,	{.v = &layouts[4]} }, /* deck */
 	{ MODKEY|ShiftMask,	XK_u,		setlayout,	{.v = &layouts[5]} }, /* monocle */
 	{ MODKEY,			XK_i,		setlayout,	{.v = &layouts[6]} }, /* centeredmaster */
 	{ MODKEY|ShiftMask,	XK_i,		setlayout,	{.v = &layouts[7]} }, /* centeredfloatingmaster */
-	{ MODKEY,			XK_o,		incnmaster,     {.i = +1 } }, /* 左右变上下 */
-	{ MODKEY|ShiftMask,	XK_o,		incnmaster,     {.i = -1 } }, /* 上下变左右 */
-    
+	// { MODKEY,			XK_o,		incnmaster,     {.i = +1 } }, /* 左右变上下 */
+	// { MODKEY|ShiftMask,	XK_o,		incnmaster,     {.i = -1 } }, /* 上下变左右 */
+	{ MODKEY,			XK_g,		incnmaster,     {.i = +1 } }, /* 左右变上下 */
+	{ MODKEY|ShiftMask,	XK_g,		incnmaster,     {.i = -1 } }, /* 上下变左右 */
     // 播放器
 	// { MODKEY,			XK_p,			    spawn,		SHCMD("mpc toggle") },
 	// { MODKEY|ShiftMask,	XK_p,			    spawn,		SHCMD("mpc pause ; pauseallmpv") },
@@ -249,7 +255,7 @@ static Key keys[] = {
 	// { MODKEY,			XK_a,		togglegaps,	    {0} },
 	{ MODKEY,			XK_a,		togglefullscr,	{0} },
 	{ MODKEY|ShiftMask,	XK_a,		defaultgaps,	{0} },
-    // 固定、解除 窗口
+  // 把窗口固定到所有 tab 上固定、解除 窗口 ================
 	{ MODKEY,			XK_v,		togglesticky,	{0} }, 
 	/* { MODKEY|ShiftMask,		XK_s,		spawn,		SHCMD("") }, */
 	// { MODKEY,			XK_d,		spawn,          SHCMD("dmenu_run") },
@@ -265,13 +271,15 @@ static Key keys[] = {
 
 	{ MODKEY|ShiftMask,	XK_h,		setmfact,	    {.f = -0.025} },
 	{ MODKEY|ShiftMask,	XK_l,		setmfact,      	{.f = +0.025} },
-	{ MODKEY,			XK_h,	    shiftview,	    { .i = -1 } },
-	{ MODKEY,			XK_l,	    shiftview,	    { .i = +1 } },
+  // 左右移动
+	// { MODKEY,			XK_h,	    shiftview,	    { .i = -1 } },
+	// { MODKEY,			XK_l,	    shiftview,	    { .i = +1 } },
+  //
 	/* J and K are automatically bound above in STACKEYS */
-	{ MODKEY,			XK_semicolon,	shiftview,	{ .i = 1 } },
-	{ MODKEY|ShiftMask,	XK_semicolon,	shifttag,	{ .i = 1 } },
+	// { MODKEY,			XK_semicolon,	shiftview,	{ .i = 1 } },
+	// { MODKEY|ShiftMask,	XK_semicolon,	shifttag,	{ .i = 1 } },
 	// { MODKEY,			XK_apostrophe,	togglescratch,	{.ui = 1} },
-	/* { MODKEY|ShiftMask,		XK_apostrophe,	spawn,		SHCMD("") }, */
+	// { MODKEY|ShiftMask,		XK_apostrophe,	togglesmartgaps,	{0} },
 	{ MODKEY,			XK_Return,	spawn,		    {.v = termcmd } },
 	{ MODKEY|ShiftMask,	XK_Return,	togglescratch,	{.ui = 0} },
 	{ MODKEY|ShiftMask,	XK_m,       togglescratch,	{.ui = 0} },
@@ -284,7 +292,7 @@ static Key keys[] = {
 	/* { MODKEY,			XK_c,		spawn,		SHCMD("") }, */
 	/* { MODKEY|ShiftMask,		XK_c,		spawn,		SHCMD("") }, */
 	/* V is automatically bound above in STACKKEYS */
-	{ MODKEY,			XK_b,		togglebar,	{0} },
+	{ MODKEY|Mod1Mask,			XK_b,		togglebar,	{0} },
 	{ MODKEY|ShiftMask,	XK_b,		spawn,		{.v = wp_change} },
 	{ MODKEY|Mod1Mask|ShiftMask,	XK_b,		spawn,		{.v = wp_change_prev} },
 	// { MODKEY,			XK_n,		spawn,		SHCMD(TERMINAL " -e nvim -c VimwikiIndex") },
@@ -313,12 +321,13 @@ static Key keys[] = {
 	{ MODKEY,			XK_F6,		spawn,		SHCMD("torwrap") },
 	{ MODKEY,			XK_F7,		spawn,		SHCMD("td-toggle") },
 	{ MODKEY,			XK_F8,		spawn,		SHCMD("mw -Y") },
+
 	// { MODKEY,			XK_F9,		spawn,		SHCMD("dmenumount") },
 	// { MODKEY,			XK_F10,		spawn,		SHCMD("dmenuumount") },
-	// { MODKEY,			XK_F11,		spawn,		SHCMD("mpv --no-cache --no-osc --no-input-default-bindings --profile=low-latency --input-conf=/dev/null --title=webcam $(ls /dev/video[0,2,4,6,8] | tail -n 1)") },
+	// { MODKEY,			XK_F11,		spawn,		SHCMD("mpv --untimed --no-cache --no-osc --no-input-default-bindings --profile=low-latency --input-conf=/dev/null --title=webcam $(ls /dev/video[0,2,4,6,8] | tail -n 1)") },
 	// { MODKEY,			XK_F12,		spawn,		SHCMD("remaps & notify-send \\\"⌨️ Keyboard remapping...\\\" \\\"Re-running keyboard defaults for any newly plugged-in keyboards.\\\"") },
 
-    // 切换子窗口
+  // 切换子窗口
 	{ MODKEY,			XK_space,	zoom,		{0} },
     // 浮动当前窗口
 	// { MODKEY|ShiftMask,	XK_space,	togglefloating,	{0} },
@@ -350,7 +359,7 @@ static Key keys[] = {
 	{ 0, XF86XK_ScreenSaver,	    spawn,		SHCMD("slock & xset dpms force off; mpc pause; pauseallmpv") },
 	{ 0, XF86XK_TaskPane,		    spawn,		SHCMD(TERMINAL " -e htop") },
 	{ 0, XF86XK_Mail,		        spawn,		SHCMD(TERMINAL " -e neomutt ; pkill -RTMIN+12 dwmblocks") },
-	{ 0, XF86XK_MyComputer,		    spawn,		SHCMD(TERMINAL " -e lf /") },
+	{ 0, XF86XK_MyComputer,		spawn,		SHCMD(TERMINAL " -e lfub /") },
 	/* { 0, XF86XK_Battery,		spawn,		SHCMD("") }, */
 	{ 0, XF86XK_Launch1,		    spawn,		SHCMD("xset dpms force off") },
 	{ 0, XF86XK_TouchpadToggle,	    spawn,		SHCMD("(synclient | grep 'TouchpadOff.*1' && synclient TouchpadOff=0) || synclient TouchpadOff=1") },
@@ -363,8 +372,18 @@ static Key keys[] = {
 	{ 0, XF86XK_AudioLowerVolume,   spawn,      {.v   = downvol } },
 	{ 0, XF86XK_AudioRaiseVolume,   spawn,      {.v   = upvol   } },
 	{ 0, XK_Print,                  spawn,      {.v = screenshotcmd} },
-    { 0, XF86XK_MonBrightnessUp,    spawn,      {.v=brightness} },
-    { 0, XF86XK_MonBrightnessDown,  spawn,      {.v=brightness_prev} },
+  { 0, XF86XK_MonBrightnessUp,    spawn,      {.v=brightness} },
+  { 0, XF86XK_MonBrightnessDown,  spawn,      {.v=brightness_prev} },
+
+  { MODKEY|ShiftMask, XK_o,    spawn,      {.v=goplayer_prev} },
+  { MODKEY|ShiftMask, XK_p,    spawn,      {.v=goplayer_next} },
+  { MODKEY|ShiftMask, XK_s,    spawn,      {.v=goplayer_pause} },
+  { MODKEY|ShiftMask, XK_d,    spawn,      {.v=goplayer_delete} },
+  
+  
+  // { 0, XK_Home,    spawn,      {.v=brightness} },
+  // { 0, XK_End,     spawn,      {.v=brightness_prev} },
+
 
 	/* { MODKEY|Mod4Mask,              XK_h,      incrgaps,       {.i = +1 } }, */
 	/* { MODKEY|Mod4Mask,              XK_l,      incrgaps,       {.i = -1 } }, */
