@@ -398,10 +398,10 @@ static Key keys[] = {
     {0, XF86XK_MonBrightnessUp, spawn, {.v = brightness}},
     {0, XF86XK_MonBrightnessDown, spawn, {.v = brightness_prev}},
 
-    // { MODKEY|ShiftMask, XK_o,    spawn,      {.v=goplayer_prev} },
-    // { MODKEY|ShiftMask, XK_p,    spawn,      {.v=goplayer_next} },
-    {MODKEY | ShiftMask, XK_braceleft, spawn, {.v = goplayer_prev}},
-    {MODKEY | ShiftMask, XK_braceright, spawn, {.v = goplayer_next}},
+    { MODKEY|ShiftMask, XK_o,    spawn,      {.v=goplayer_prev} },
+    { MODKEY|ShiftMask, XK_p,    spawn,      {.v=goplayer_next} },
+    // {MODKEY | ShiftMask, XK_braceleft, spawn, {.v = goplayer_prev}},
+    // {MODKEY | ShiftMask, XK_braceright, spawn, {.v = goplayer_next}},
     {MODKEY | ShiftMask, XK_s, spawn, {.v = goplayer_pause}},
     {MODKEY | ShiftMask, XK_d, spawn, {.v = goplayer_delete}},
 
