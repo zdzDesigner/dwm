@@ -19,7 +19,7 @@ static int swallowfloating = 0; /* 1 means swallow floating windows by default *
 static int smartgaps = 0;       /* 1 means no outer gap when there is only one window */
 static int showbar = 1;         /* 0 means no bar */
 // static int showbar = 0;         /* 0 means no bar */
-static int topbar = 1;          /* 0 means bottom bar */
+static int topbar = 1; /* 0 means bottom bar */
 // static char *fonts[]          = { "monospace:size=16",
 // "JoyPixels:pixelsize=16:antialias=true:autohint=true"  }; static char *fonts[]          = {
 // "monospace:size=13" }; static char dmenufont[]       = "monospace:size=13"; static char *fonts[]
@@ -92,8 +92,7 @@ static const Rule rules[] = {
      *	WM_CLASS(STRING) = instance, class
      *	WM_NAME(STRING) = title
      */
-    /* class    instance      title       	 tags mask    isfloating   isterminal  noswallow
-       monitor */
+    /* class    instance      title       	 tags mask    isfloating   isterminal  noswallow  monitor */
     {"Gimp", NULL, NULL, 1 << 8, 0, 0, 0, -1},          {TERMCLASS, NULL, NULL, 0, 0, 1, 0, -1},
     {NULL, NULL, "Event Tester", 0, 0, 0, 1, -1},       {TERMCLASS, "bg", NULL, 1 << 7, 0, 1, 0, -1},
     {TERMCLASS, "spterm", NULL, SPTAG(0), 1, 1, 0, -1}, {TERMCLASS, "spcalc", NULL, SPTAG(1), 1, 1, 0, -1},
@@ -167,6 +166,8 @@ static const char *brightness_prev[] = {"/home/zdz/.zdz/dwm/scripts/brightness.s
 // NULL},{"/home/zdz/.zdz/dwm/scripts/brightness.sh", "-dec", NULL}};
 static const char *goplayer_next[] = {"/home/zdz/.zdz/dwm/scripts/goplayer.sh", "-next", NULL};
 static const char *goplayer_prev[] = {"/home/zdz/.zdz/dwm/scripts/goplayer.sh", "-prev", NULL};
+static const char *goplayer_forward[] = {"/home/zdz/.zdz/dwm/scripts/goplayer.sh", "-forward", NULL};
+static const char *goplayer_backward[] = {"/home/zdz/.zdz/dwm/scripts/goplayer.sh", "-backward", NULL};
 static const char *goplayer_pause[] = {"/home/zdz/.zdz/dwm/scripts/goplayer.sh", "-pause", NULL};
 static const char *goplayer_delete[] = {"/home/zdz/.zdz/dwm/scripts/goplayer.sh", "-delete", NULL};
 /*
@@ -398,10 +399,10 @@ static Key keys[] = {
     {0, XF86XK_MonBrightnessUp, spawn, {.v = brightness}},
     {0, XF86XK_MonBrightnessDown, spawn, {.v = brightness_prev}},
 
-    { MODKEY|ShiftMask, XK_o,    spawn,      {.v=goplayer_prev} },
-    { MODKEY|ShiftMask, XK_p,    spawn,      {.v=goplayer_next} },
-    // {MODKEY | ShiftMask, XK_braceleft, spawn, {.v = goplayer_prev}},
-    // {MODKEY | ShiftMask, XK_braceright, spawn, {.v = goplayer_next}},
+    {MODKEY | ShiftMask, XK_o, spawn, {.v = goplayer_prev}},
+    {MODKEY | ShiftMask, XK_p, spawn, {.v = goplayer_next}},
+    {MODKEY | ShiftMask, XK_h, spawn, {.v = goplayer_forward}},
+    {MODKEY | ShiftMask, XK_apostrophe, spawn, {.v = goplayer_backward}},
     {MODKEY | ShiftMask, XK_s, spawn, {.v = goplayer_pause}},
     {MODKEY | ShiftMask, XK_d, spawn, {.v = goplayer_delete}},
 
