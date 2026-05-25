@@ -55,9 +55,9 @@ shifttag(const Arg *arg)
 				break;
 			}
 		i += arg->i;
-	} while (!visible && ++count < 10);
+	} while (!visible && ++count < LENGTH(tags));
 
-	if (count < 10) {
+	if (count < LENGTH(tags)) {
 		a.i = nextseltags;
 		tag(&a);
 	}

@@ -92,7 +92,7 @@ static Sp scratchpads[] = {
 /* tagging */
 // static const char *tags[] = { "\uf120", "\uf7ae", "\uf121", "\uf04b", "\ue62e", "\uf251",
 // "\ue727", "\uf537", "\uf684" };
-static const char *tags[] = {"\uf268", "\uf120", "\uf121", "\uf04b", "\uf27d","\ue8a1", "\uf251", "\ue727", "\uf537", "\uf684"};
+static const char *tags[] = {"\uf268", "\uf120", "\uf121", "\uf04b", "\uf27d", "\ue8a1", "\uf251", "\ue727", "\uf537", "\uf684", "\uf0b4", "\ue279"};
 // static const char *tags[] = { "O", "\uf120", "\uf121", "\uf04b", "\ue62e", "\uf251", "\ue727",
 // "\uf537", "\uf684" }; static const char *tags[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9"
 // };
@@ -222,7 +222,7 @@ static Key keys[] = {
     // TAGKEYS(XK_1, 0) TAGKEYS(XK_2, 1) TAGKEYS(XK_3, 2) TAGKEYS(XK_4, 3) TAGKEYS(XK_5, 4) TAGKEYS(XK_0, 5)
     //     TAGKEYS(XK_7, 6) TAGKEYS(XK_8, 7) TAGKEYS(XK_9, 8)
     TAGKEYS(XK_1, 0) TAGKEYS(XK_2, 1) TAGKEYS(XK_3, 2) TAGKEYS(XK_4, 3) TAGKEYS(XK_5, 4) TAGKEYS(XK_6, 5) TAGKEYS(XK_7, 6) TAGKEYS(XK_8, 7)
-     TAGKEYS(XK_9, 8) TAGKEYS(XK_0, 9)
+     TAGKEYS(XK_9, 8) TAGKEYS(XK_0, 9) TAGKEYS(XK_minus, 10) TAGKEYS(XK_equal, 11)
 
     // { MODKEY|ShiftMask,			XK_6,		view,		{.ui = ~0 } },
     // { MODKEY|ShiftMask,	XK_0,		tag,		{.ui = ~0 } },
