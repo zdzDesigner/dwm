@@ -24,14 +24,24 @@ static int topbar = 1; /* 0 means bottom bar */
 // "JoyPixels:pixelsize=16:antialias=true:autohint=true"  }; static char *fonts[]          = {
 // "monospace:size=13" }; static char dmenufont[]       = "monospace:size=13"; static char *fonts[]
 // = { "Hack Nerd Font Mono:size=13","JoyPixels:pixelsize=16:antialias=true:autohint=true"};
-// static char *fonts[] = {"mono:pixelsize=13:antialias=true:autohint=true", "JoyPixels:pixelsize=16:antialias=true:autohint=true", "Hack Nerd Font Mono:size=13"};
+// static char *fonts[] = {"mono:pixelsize=13:antialias=true:autohint=true",
+// "JoyPixels:pixelsize=16:antialias=true:autohint=true", "Hack Nerd Font Mono:size=13"}; static char dmenufont[] =
+// "DejaVu Sans Mono:size=13";
+// static char *fonts[] = {"mono:pixelsize=13:antialias=true:autohint=true",
+//                        "Hack Nerd Font Mono:pixelsize=16:antialias=true:autohint=true"};
+
 // static char dmenufont[] = "DejaVu Sans Mono:size=13";
-static char *fonts[] = {"mono:pixelsize=13:antialias=true:autohint=true", "Hack Nerd Font Mono:pixelsize=16:antialias=true:autohint=true"};
-// static char dmenufont[] = "DejaVu Sans Mono:size=13";
-static char dmenufont[] = "Hack Nerd Font Mono:size=13";
 // static char dmenufont[] = "mono:size=13";
 // static char dmenufont[] = "Ubuntu Mono:size=13";
 
+// static char *fonts[] = {"DejaVu Sans Mono:style=Book:pixelsize=14:antialias=true:autohint=true:style=Bold", 
+// 	       		"JoyPixels:pixelsize=13:antialias=true:autohint=true","Hack Nerd Font Mono:size=13"};
+// static char dmenufont[] = "Hack Nerd Font Mono:size=13";
+static char *fonts[] = {
+    "DejaVu Sans Mono:style=Book:pixelsize=14:antialias=true:autohint=true",
+    "Symbols Nerd Font Mono:pixelsize=14:antialias=true:autohint=true"
+};
+static char dmenufont[] = "DejaVu Sans Mono:size=14";
 // "Noto Color Emoji"
 // "
 // static char *fonts[]          = {"SauceCodePro Nerd Font Mono:size=13",
@@ -82,7 +92,7 @@ static Sp scratchpads[] = {
 /* tagging */
 // static const char *tags[] = { "\uf120", "\uf7ae", "\uf121", "\uf04b", "\ue62e", "\uf251",
 // "\ue727", "\uf537", "\uf684" };
-static const char *tags[] = {"\uf268", "\uf120", "\uf121", "\uf04b", "\ue62e", "\uf251", "\ue727", "\uf537", "\uf684"};
+static const char *tags[] = {"\uf268", "\uf120", "\uf121", "\uf04b", "\uf27d","\ue8a1", "\uf251", "\ue727", "\uf537", "\uf684"};
 // static const char *tags[] = { "O", "\uf120", "\uf121", "\uf04b", "\ue62e", "\uf251", "\ue727",
 // "\uf537", "\uf684" }; static const char *tags[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9"
 // };
@@ -132,7 +142,9 @@ static const Layout layouts[] = {
 { MODKEY|ControlMask,             KEY,      tag,            {.ui = 1 << TAG} }, \
 { MODKEY|ControlMask|ShiftMask, KEY,      toggletag,      {.ui = 1 << TAG} },*/
 
-#define STACKKEYS(MOD, ACTION) {MOD, XK_j, ACTION##stack, {.i = INC(+1)}}, {MOD, XK_k, ACTION##stack, {.i = INC(-1)}}, {MOD, XK_s, ACTION##stack, {.i = 0}},
+#define STACKKEYS(MOD, ACTION)                                                                                         \
+    {MOD, XK_j, ACTION##stack, {.i = INC(+1)}}, {MOD, XK_k, ACTION##stack, {.i = INC(-1)}},                            \
+        {MOD, XK_s, ACTION##stack, {.i = 0}},
 /* { MOD,  XK_v,   ACTION##stack,  {.i = 0 } }, \
  { MOD, XK_grave, ACTION##stack, {.i = PREVSEL } }, \ */
 /* { MOD, XK_a,     ACTION##stack, {.i = 1 } }, \ */
@@ -140,17 +152,15 @@ static const Layout layouts[] = {
 /* { MOD, XK_x,     ACTION##stack, {.i = -1 } }, */
 
 /* helper for spawning shell commands in the pre dwm-5.0 fashion */
-#define SHCMD(cmd)                                                                                                                                                                 \
-    {                                                                                                                                                                              \
-        .v = (const char *[])                                                                                                                                                      \
-        {                                                                                                                                                                          \
-            "/bin/sh", "-c", cmd, NULL                                                                                                                                             \
-        }                                                                                                                                                                          \
+#define SHCMD(cmd)                                                                                                     \
+    {                                                                                                                  \
+        .v = (const char *[]) { "/bin/sh", "-c", cmd, NULL }                                                           \
     }
 
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
-static const char *dmenucmd[] = {"dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", normbgcolor, "-nf", normfgcolor, "-sb", selbgcolor, "-sf", selfgcolor, NULL};
+static const char *dmenucmd[] = {"dmenu_run", "-m",        dmenumon, "-fn",      dmenufont, "-nb",      normbgcolor,
+                                 "-nf",       normfgcolor, "-sb",    selbgcolor, "-sf",     selfgcolor, NULL};
 static const char *termcmd[] = {TERMINAL, NULL};
 static const char *terminatorcmd[] = {"terminator", NULL};
 
@@ -164,12 +174,15 @@ static const char *brightness[] = {"/home/zdz/.zdz/dwm/scripts/brightness.sh", "
 static const char *brightness_prev[] = {"/home/zdz/.zdz/dwm/scripts/brightness.sh", "-dec", NULL};
 // static const char *brightness[2][] = {{"/home/zdz/.zdz/dwm/scripts/brightness.sh","-inc",
 // NULL},{"/home/zdz/.zdz/dwm/scripts/brightness.sh", "-dec", NULL}};
-static const char *goplayer_next[] = {"/home/zdz/.zdz/dwm/scripts/goplayer.sh", "-next", NULL};
-static const char *goplayer_prev[] = {"/home/zdz/.zdz/dwm/scripts/goplayer.sh", "-prev", NULL};
-static const char *goplayer_forward[] = {"/home/zdz/.zdz/dwm/scripts/goplayer.sh", "-forward", NULL};
-static const char *goplayer_backward[] = {"/home/zdz/.zdz/dwm/scripts/goplayer.sh", "-backward", NULL};
-static const char *goplayer_pause[] = {"/home/zdz/.zdz/dwm/scripts/goplayer.sh", "-pause", NULL};
-static const char *goplayer_delete[] = {"/home/zdz/.zdz/dwm/scripts/goplayer.sh", "-delete", NULL};
+// static const char *goplayer_next[] = {"/home/zdz/.zdz/dwm/scripts/goplayer.sh", "-next", NULL};
+// static const char *goplayer_prev[] = {"/home/zdz/.zdz/dwm/scripts/goplayer.sh", "-prev", NULL};
+// static const char *goplayer_forward[] = {"/home/zdz/.zdz/dwm/scripts/goplayer.sh", "-forward", NULL};
+// static const char *goplayer_backward[] = {"/home/zdz/.zdz/dwm/scripts/goplayer.sh", "-backward", NULL};
+// static const char *goplayer_pause[] = {"/home/zdz/.zdz/dwm/scripts/goplayer.sh", "-pause", NULL};
+// static const char *goplayer_delete[] = {"/home/zdz/.zdz/dwm/scripts/goplayer.sh", "-delete", NULL};
+// static const char *goplayer_exit[] = {"/home/zdz/.zdz/dwm/scripts/goplayer.sh", "-exit", NULL};
+static const char *Fy[] = {"Fy", "true", NULL};
+
 /*
  * Xresources preferences to load at startup
  */
@@ -206,19 +219,19 @@ static Key keys[] = {
     {MODKEY, XK_grave, spawn, SHCMD("dmenuunicode")},
     /* { MODKEY|ShiftMask,		XK_grave,	togglescratch,	SHCMD("") }, */
     // 移动TAG，同时展示多个View,Float 无光标时可以修正
-    TAGKEYS(XK_1, 0) TAGKEYS(XK_2, 1) TAGKEYS(XK_3, 2) TAGKEYS(XK_4, 3) TAGKEYS(XK_5, 4) TAGKEYS(XK_0, 5) TAGKEYS(XK_7, 6) TAGKEYS(XK_8, 7) TAGKEYS(XK_9, 8)
+    // TAGKEYS(XK_1, 0) TAGKEYS(XK_2, 1) TAGKEYS(XK_3, 2) TAGKEYS(XK_4, 3) TAGKEYS(XK_5, 4) TAGKEYS(XK_0, 5)
+    //     TAGKEYS(XK_7, 6) TAGKEYS(XK_8, 7) TAGKEYS(XK_9, 8)
+    TAGKEYS(XK_1, 0) TAGKEYS(XK_2, 1) TAGKEYS(XK_3, 2) TAGKEYS(XK_4, 3) TAGKEYS(XK_5, 4) TAGKEYS(XK_6, 5) TAGKEYS(XK_7, 6) TAGKEYS(XK_8, 7)
+     TAGKEYS(XK_9, 8) TAGKEYS(XK_0, 9)
+
     // { MODKEY|ShiftMask,			XK_6,		view,		{.ui = ~0 } },
     // { MODKEY|ShiftMask,	XK_0,		tag,		{.ui = ~0 } },
-    // { MODKEY,			XK_minus,	spawn,		SHCMD("pamixer --allow-boost -d 5; kill -44 $(pidof
-    // dwmblocks)") },
-    // { MODKEY|ShiftMask,	XK_minus,	spawn,		SHCMD("pamixer --allow-boost -d 15; kill -44 $(pidof
-    // dwmblocks)") },
-    // { MODKEY,			XK_equal,	spawn,		SHCMD("pamixer --allow-boost -i 5; kill -44 $(pidof
-    // dwmblocks)") },
-    // { MODKEY|ShiftMask,	XK_equal,	spawn,		SHCMD("pamixer --allow-boost -i 15; kill -44 $(pidof
-    // dwmblocks)") },
-    // { MODKEY,			XK_BackSpace,	spawn,		SHCMD("sysact") },
-    // { MODKEY|ShiftMask,	XK_BackSpace,	spawn,		SHCMD("sysact") },
+    // { MODKEY,			XK_minus,	spawn,		SHCMD("pamixer --allow-boost -d 5; kill -44
+    // $(pidof dwmblocks)") }, { MODKEY|ShiftMask,	XK_minus,	spawn,		SHCMD("pamixer --allow-boost -d
+    // 15; kill -44 $(pidof dwmblocks)") }, { MODKEY,			XK_equal,	spawn,		SHCMD("pamixer
+    // --allow-boost -i 5; kill -44 $(pidof dwmblocks)") }, { MODKEY|ShiftMask,	XK_equal,	spawn,
+    // SHCMD("pamixer --allow-boost -i 15; kill -44 $(pidof dwmblocks)") }, { MODKEY,			XK_BackSpace,
+    // spawn,		SHCMD("sysact") }, { MODKEY|ShiftMask,	XK_BackSpace,	spawn,		SHCMD("sysact") },
 
     {MODKEY, XK_Tab, view, {0}},
     /* { MODKEY|ShiftMask,		XK_Tab,		spawn,		SHCMD("") }, */
@@ -229,9 +242,11 @@ static Key keys[] = {
     // { MODKEY|ShiftMask,	XK_q,		spawn,		SHCMD("sysact") },
     // { MODKEY,			XK_w,		spawn,		SHCMD("$BROWSER") },
     // { MODKEY|ShiftMask,	XK_w,		spawn,		SHCMD(TERMINAL " -e sudo nmtui") },
-    // { MODKEY,			XK_e,		spawn,		SHCMD(TERMINAL " -e neomutt ; pkill -RTMIN+12 dwmblocks; rmdir
+    // { MODKEY,			XK_e,		spawn,		SHCMD(TERMINAL " -e neomutt ; pkill -RTMIN+12
+    // dwmblocks; rmdir
     // ~/.abook") },
-    // { MODKEY|ShiftMask,		XK_e,		spawn,		SHCMD(TERMINAL " -e abook -C ~/.config/abook/abookrc
+    // { MODKEY|ShiftMask,		XK_e,		spawn,		SHCMD(TERMINAL " -e abook -C
+    // ~/.config/abook/abookrc
     // --datafile ~/.config/abook/addressbook") },
     // { MODKEY,			XK_r,		spawn,		SHCMD(TERMINAL " -e lfub")
     // }, { MODKEY|ShiftMask,		XK_r,		spawn,		SHCMD(TERMINAL " -e htop")
@@ -315,8 +330,11 @@ static Key keys[] = {
     // dwmblocks)") },
 
     // { MODKEY,			XK_Left,	focusmon,	{.i = -1 } },
+    {MODKEY, XK_comma, focusmon, {.i = -1}},
+
     // { MODKEY|ShiftMask,	XK_Left,	tagmon,		{.i = -1 } },
     // { MODKEY,			XK_Right,	focusmon,	{.i = +1 } },
+    {MODKEY, XK_period, focusmon, {.i = +1}},
     // { MODKEY|ShiftMask,	XK_Right,	tagmon,		{.i = +1 } },
 
     // { MODKEY,			XK_Page_Up,	    shiftview,	{ .i = -1 } },
@@ -332,7 +350,8 @@ static Key keys[] = {
     {MODKEY, XK_F1, spawn, SHCMD("groff -mom /usr/local/share/dwm/larbs.mom -Tpdf | zathura -")},
     {MODKEY, XK_F2, spawn, SHCMD("tutorialvids")},
     {MODKEY, XK_F3, spawn, SHCMD("displayselect")},
-    // { MODKEY,			XK_F4,		spawn,		SHCMD(TERMINAL " -e pulsemixer; kill -44 $(pidof dwmblocks)")
+    // { MODKEY,			XK_F4,		spawn,		SHCMD(TERMINAL " -e pulsemixer; kill -44 $(pidof
+    // dwmblocks)")
     // },
     /* { MODKEY,			XK_F5,		xrdb,		{.v = NULL } }, */
     {MODKEY, XK_F6, spawn, SHCMD("torwrap")},
@@ -344,7 +363,8 @@ static Key keys[] = {
     // { MODKEY,			XK_F11,		spawn,		SHCMD("mpv --untimed --no-cache --no-osc
     // --no-input-default-bindings --profile=low-latency --input-conf=/dev/null --title=webcam $(ls
     // /dev/video[0,2,4,6,8] | tail -n 1)") },
-    // { MODKEY,			XK_F12,		spawn,		SHCMD("remaps & notify-send \\\"⌨️ Keyboard remapping...\\\"
+    // { MODKEY,			XK_F12,		spawn,		SHCMD("remaps & notify-send \\\"⌨️ Keyboard
+    // remapping...\\\"
     // \\\"Re-running keyboard defaults for any newly plugged-in keyboards.\\\"") },
 
     // 切换子窗口
@@ -399,12 +419,14 @@ static Key keys[] = {
     {0, XF86XK_MonBrightnessUp, spawn, {.v = brightness}},
     {0, XF86XK_MonBrightnessDown, spawn, {.v = brightness_prev}},
 
-    {MODKEY | ShiftMask, XK_o, spawn, {.v = goplayer_prev}},
-    {MODKEY | ShiftMask, XK_p, spawn, {.v = goplayer_next}},
-    {MODKEY | ShiftMask, XK_h, spawn, {.v = goplayer_forward}},
-    {MODKEY | ShiftMask, XK_apostrophe, spawn, {.v = goplayer_backward}},
-    {MODKEY | ShiftMask, XK_s, spawn, {.v = goplayer_pause}},
-    {MODKEY | ShiftMask, XK_d, spawn, {.v = goplayer_delete}},
+    // {MODKEY | ShiftMask, XK_o, spawn, {.v = goplayer_prev}},
+    // {MODKEY | ShiftMask, XK_p, spawn, {.v = goplayer_next}},
+    // {MODKEY | ShiftMask, XK_h, spawn, {.v = goplayer_forward}},
+    // {MODKEY | ShiftMask, XK_apostrophe, spawn, {.v = goplayer_backward}},
+    // {MODKEY | ShiftMask, XK_s, spawn, {.v = goplayer_pause}},
+    // {MODKEY | ShiftMask, XK_d, spawn, {.v = goplayer_delete}},
+    // {MODKEY | ShiftMask, XK_e, spawn, {.v = goplayer_exit}},
+    {ControlMask, XK_q, spawn, {.v = Fy}},
 
     // { 0, XK_Home,    spawn,      {.v=brightness} },
     // { 0, XK_End,     spawn,      {.v=brightness_prev} },
