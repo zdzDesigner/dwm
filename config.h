@@ -92,7 +92,7 @@ static Sp scratchpads[] = {
 /* tagging */
 // static const char *tags[] = { "\uf120", "\uf7ae", "\uf121", "\uf04b", "\ue62e", "\uf251",
 // "\ue727", "\uf537", "\uf684" };
-static const char *tags[] = {"\ue7a8","\uf268", "\uf120", "\uf121", "\uf04b", "\uf27d", "\ue8a1", "\uf251", "\ue727", "\uf537", "\uf684", "\uf0b4", "\ue279"};
+static const char *tags[] = {"\ue7a8","\uf268", "\uebca", "\uebc6", "\uf04b", "\uf27d", "\ue8a1", "\uf251", "\ue727", "\uf537", "\uf684", "\uf0b4", "\ue279"};
 // static const char *tags[] = { "O", "\uf120", "\uf121", "\uf04b", "\ue62e", "\uf251", "\ue727",
 // "\uf537", "\uf684" }; static const char *tags[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9"
 // };
