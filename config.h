@@ -90,9 +90,10 @@ static Sp scratchpads[] = {
 };
 
 /* tagging */
+// f0d1c f2b1 
 // static const char *tags[] = { "\uf120", "\uf7ae", "\uf121", "\uf04b", "\ue62e", "\uf251",
 // "\ue727", "\uf537", "\uf684" };
-static const char *tags[] = {"\ue7a8","\uf268", "\uebca", "\uebc6", "\uf04b", "\uf27d", "\ue8a1", "\uf251", "\ue727", "\uf537", "\uf684", "\uf0b4", "\ue279"};
+static const char *tags[] = {"\ue7a8","\uf268", "\uebca", "\uebc6", "\uf04b", "\uf27d", "\ue8a1", "\uf251", "\ue727", "\uf537", "\uf684", "\uf0b4", "\ue279", "\uef9f"};
 // static const char *tags[] = { "O", "\uf120", "\uf121", "\uf04b", "\ue62e", "\uf251", "\ue727",
 // "\uf537", "\uf684" }; static const char *tags[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9"
 // };
@@ -233,6 +234,7 @@ static Key keys[] = {
     TAGKEYS(XK_0, 9) 
     TAGKEYS(XK_minus, 10) 
     TAGKEYS(XK_equal, 11) 
+    TAGKEYS(XK_BackSpace, 13) 
 
     // { MODKEY|ShiftMask,			XK_6,		view,		{.ui = ~0 } },
     // { MODKEY|ShiftMask,	XK_0,		tag,		{.ui = ~0 } },
