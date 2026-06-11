@@ -228,6 +228,7 @@ static void sendmon(Client *c, Monitor *m);
 static void setclientstate(Client *c, long state);
 static void setfocus(Client *c);
 static void setfullscreen(Client *c, int fullscreen);
+static void setborderpx(const Arg *arg);
 static void setlayout(const Arg *arg);
 static void setmfact(const Arg *arg);
 static void setup(void);
@@ -731,7 +732,7 @@ Monitor *createmon(void)
     Monitor *m;
 
     m = ecalloc(1, sizeof(Monitor));
-    m->tagset[0] = m->tagset[1] = 1;
+    m->tagset[0] = m->tagset[1] = 1 << 1;
     m->mfact = mfact;
     m->nmaster = nmaster;
     m->showbar = showbar;
@@ -1526,6 +1527,28 @@ void setfullscreen(Client *c, int fullscreen)
         resizeclient(c, c->x, c->y, c->w, c->h);
         arrange(c->mon);
     }
+}
+
+void setborderpx(const Arg *arg)
+{
+    Client *c;
+    Monitor *m;
+    int nextborderpx;
+
+    if (!arg) return;
+    nextborderpx = MAX((int)borderpx + arg->i, 0);
+    if (nextborderpx == (int)borderpx) return;
+    borderpx = nextborderpx;
+
+    for (m = mons; m; m = m->next) {
+        for (c = m->clients; c; c = c->next) {
+            if (c->isfullscreen)
+                c->oldbw = borderpx;
+            else
+                c->bw = borderpx;
+        }
+    }
+    arrange(NULL);
 }
 
 int stackpos(const Arg *arg)

@@ -93,7 +93,7 @@ static Sp scratchpads[] = {
 // f0d1c f2b1 
 // static const char *tags[] = { "\uf120", "\uf7ae", "\uf121", "\uf04b", "\ue62e", "\uf251",
 // "\ue727", "\uf537", "\uf684" };
-static const char *tags[] = {"\ue7a8","\uf268", "\uebca", "\uebc6", "\uf04b", "\uf27d", "\ue8a1", "\uf251", "\ue727", "\uf537", "\uf684", "\uf0b4", "\ue279", "\uef9f"};
+static const char *tags[] = {"\ue7a8","\uf268", "\uebca", "\uebc6", "\uf04b", "\uf27d", "\ue8a1", "\uf251", "\ue727", "\uf537", "\uf684", "\ue627", "\ue6a9", "\uef9f"};
 // static const char *tags[] = { "O", "\uf120", "\uf121", "\uf04b", "\ue62e", "\uf251", "\ue727",
 // "\uf537", "\uf684" }; static const char *tags[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9"
 // };
@@ -221,19 +221,19 @@ static Key keys[] = {
     // 移动TAG，同时展示多个View,Float 无光标时可以修正
     // TAGKEYS(XK_1, 0) TAGKEYS(XK_2, 1) TAGKEYS(XK_3, 2) TAGKEYS(XK_4, 3) TAGKEYS(XK_5, 4) TAGKEYS(XK_0, 5)
     //     TAGKEYS(XK_7, 6) TAGKEYS(XK_8, 7) TAGKEYS(XK_9, 8)
-    TAGKEYS(XK_grave, 12) 
-    TAGKEYS(XK_1, 0) 
-    TAGKEYS(XK_2, 1) 
-    TAGKEYS(XK_3, 2) 
-    TAGKEYS(XK_4, 3) 
-    TAGKEYS(XK_5, 4) 
-    TAGKEYS(XK_6, 5) 
-    TAGKEYS(XK_7, 6) 
-    TAGKEYS(XK_8, 7)
-    TAGKEYS(XK_9, 8) 
-    TAGKEYS(XK_0, 9) 
-    TAGKEYS(XK_minus, 10) 
-    TAGKEYS(XK_equal, 11) 
+    TAGKEYS(XK_grave, 0) 
+    TAGKEYS(XK_1, 1) 
+    TAGKEYS(XK_2, 2) 
+    TAGKEYS(XK_3, 3) 
+    TAGKEYS(XK_4, 4) 
+    TAGKEYS(XK_5, 5) 
+    TAGKEYS(XK_6, 6) 
+    TAGKEYS(XK_7, 7) 
+    TAGKEYS(XK_8, 8)
+    TAGKEYS(XK_9, 9) 
+    TAGKEYS(XK_0, 10) 
+    TAGKEYS(XK_minus, 11) 
+    TAGKEYS(XK_equal, 12) 
     TAGKEYS(XK_BackSpace, 13) 
 
     // { MODKEY|ShiftMask,			XK_6,		view,		{.ui = ~0 } },
@@ -326,6 +326,9 @@ static Key keys[] = {
     // 边框空白缩放
     {MODKEY | Mod1Mask, XK_h, incrgaps, {.i = +3}},
     {MODKEY | Mod1Mask, XK_l, incrgaps, {.i = -3}},
+    // 边框线宽缩放
+    {MODKEY | Mod1Mask | ShiftMask, XK_h, setborderpx, {.i = +1}},
+    {MODKEY | Mod1Mask | ShiftMask, XK_l, setborderpx, {.i = -1}},
     /* { MODKEY|ShiftMask,		XK_z,		spawn,		SHCMD("") }, */
     /* { MODKEY|ShiftMask,		XK_x,		spawn,		SHCMD("") }, */
     /* { MODKEY,			XK_c,		spawn,		SHCMD("") }, */
